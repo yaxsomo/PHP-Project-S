@@ -1,0 +1,71 @@
+{% extends "base.twig" %}
+
+{% block title %}Login{% endblock %}
+{% block head %}
+    {{ parent() }}
+    {% block css %}<style>
+    
+    {{ source('@views/cart.css') }}
+    {{ source('@views/base.css') }}
+    
+    </style>{% endblock %}
+{% endblock %}
+
+{% block header %} 
+        <div class="allignDynamic">
+        <li class="navigation__item"><a href="/" class="navigation__link">Home</a></li>
+{% if userInfo.session.valid == true %}
+        <li class="navigation__item"><span STYLE="padding:0 0 0 10px;"><a>Connecté en tant que {{ userInfo.session.FirstName }} {{ userInfo.session.LastName }}</a></li>
+
+    {% if userInfo.session.Role == 1 %}
+            <li class="navigation__item"><a href="/adminPanel" class="navigation__link">Admin Panel</a></li>
+    {% endif %}
+
+        <li class="navigation__item"><a href="/cart" class="navigation__link navigation__link--is-active">Cart</a></li>
+        <form action="/login" method="post">
+        <li class="navigation__item"><button class="navigation__link" name="logout" type="submit">Logout</a></li>
+        </form>
+{% else %}
+        <li class="navigation__item"><a href="/login" class="navigation__link">Login</a></li>
+        <li class="navigation__item"><a href="/registration" class="navigation__link">Register</a></li>
+{% endif %}
+<li class="navigation__item"><span STYLE="padding:0 0 0 10px;"><a>Total: {{ userInfo.totalCart }} € </a></li>
+        </div>
+       
+{% endblock %}
+
+{# {% block totalToDisplay %}{% endblock %} #}
+
+{% block productCard %}
+
+<div class="container">
+
+
+
+    {% for key, info in userInfo %}
+        {% if key != "totalCart" %}
+        {% if key != "session" %}
+<div class="card">
+
+  <div class="imgBox">
+    <img src="https://wiki.tripwireinteractive.com/images/4/47/Placeholder.png" alt="mouse corsair" class="productImg">
+  </div>
+
+  <div class="contentBox">
+    <h3>{{ info.Name }}</h3>
+    <h2 class="price">{{ info.Price }} €</h2>
+  <form action="/cart" method="post">
+    <button class="buy" name="removeFromCart" value ={{ info.ProductId }} >Remove from cart</button>
+</form>
+
+  </div>
+
+</div>
+         {% endif %}
+         {% endif %}
+    {% endfor %}
+
+
+</div>
+
+{% endblock %}

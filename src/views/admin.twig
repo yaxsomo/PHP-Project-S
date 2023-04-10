@@ -1,0 +1,110 @@
+{% extends "base.twig" %}
+
+{% block title %}Login{% endblock %}
+{% block head %}
+    {{ parent() }}
+    {% block css %}
+    <style>
+    {{ source('@views/auth.css') }}
+    {{ source('@views/admin.css') }}
+    </style>
+    {% endblock %}
+{% endblock %}
+
+
+
+
+{% block header %} 
+        <div class="allignDynamic">
+        <li class="navigation__item"><a href="/" class="navigation__link">Home</a></li>
+{% if collection.session.valid == true %}
+        <li class="navigation__item"><a>Connecté en tant que {{ collection.session.FirstName }} {{ collection.session.LastName }}</a></li>
+
+    {% if collection.session.Role == 1 %}
+             <li class="navigation__item"><a href="/adminPanel" class="navigation__link navigation__link--is-active">Admin Panel</a></li>
+    {% endif %}
+
+        <li class="navigation__item"><a href="/cart" class="navigation__link">Cart</a></li>
+        <form action="/login" method="post">
+        <li class="navigation__item"><button class="navigation__link" name="logout" type="submit">Logout</a></li>
+        </form>
+{% else %}
+        <li class="navigation__item"><a href="/login" class="navigation__link">Login</a></li>
+        <li class="navigation__item"><a href="/registration" class="navigation__link">Register</a></li>
+{% endif %}
+        </div>
+{% endblock %}
+
+
+{% block modifyUser %}
+<div class="container">
+  <form action="/adminPanel" method="post">
+    <div class="row">
+      <div class="col-25">
+        <label for="fname">Enter the Email of the User to modify:</label>
+      </div>
+
+      <div class="col-75">
+        <input type="text" id="target" name="target" placeholder="user@email.com ...">
+      </div>
+    </div>
+    
+        <div class="row">
+      <div class="col-25">
+        <label for="option">Option</label>
+      </div>
+      <div class="col-75">
+        <select id="option" name="option">
+          <option name="Email" value="Email">Set new email</option>
+          <option name="Pwd"value="Pwd">Set new password</option>
+
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-25">
+        <label for="newValue">Enter the new Value: </label>
+      </div>
+      <div class="col-75">
+        <input type="text" id="newValue" name="newValue" placeholder="Value for the selected option...">
+      </div>
+    </div>
+
+    <div class="row">
+      <button class="button" type="submit" name="Modify" value="Submit"> Modify </button>
+
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+
+{% block collectionUsers %}
+<div class="usersCollection">
+<table class="collection">
+  <tr>
+    <th>UserId</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Email</th>
+    <th>Phone</th>
+    <th>Role</th>
+  </tr>
+  {% for user in collection %}
+  <tr class="tr">
+    <td>{{ user.UserId }}</td>
+    <td>{{ user.FirstName }}</td>
+    <td>{{ user.LastName }}</td>
+    <td>{{ user.Email }}</td>
+    <td>{{ user.Phone }}</td>
+    {% if user.Role == 1 %}
+    <td>Admin</td>
+    {% else %}
+    <td>User</td>
+    {% endif %}
+  </tr>
+   {% endfor %}
+</table>
+</div>
+{% endblock %}

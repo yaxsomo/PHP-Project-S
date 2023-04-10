@@ -1,0 +1,31 @@
+{% extends "base.twig" %}
+
+{% block title %}Login{% endblock %}
+{% block head %}
+    {{ parent() }}
+    {% block css %}<style>
+    
+    {{ source('@views/auth.css') }}
+    
+    </style>{% endblock %}
+{% endblock %}
+
+
+{% block login %}
+<div class="register">
+    <form action="/registration" method="post">
+ <p> First Name: <input type="text" placeholder="first name..." name="rFirstName" required></p>
+ <p> Last name : <input type="text" placeholder="last name..." name="rLastName" required></p>
+ <p> Email : <input type="email" placeholder="email..." name="rEmail" required></p>
+ <p> Phone number :<input type="text" placeholder="phone number..." name="rPhone" required></p>
+ <p>  Address : <input type="text" placeholder="address..." name="rAddress" required></p>
+ <p> City : <input type="text" placeholder="city..." name="rCity" required></p>
+ <p> Country : <input type="text" placeholder="country..." name="rCountry" required></p>
+  <p>Password : <input type="password" placeholder="password..." name="rPassword" required>
+ <button class="button" type="submit" name="registerUser"> Register </button>
+ {# <p><input name="login" type="submit" /></p> #}
+</form>
+
+</div>
+{% endblock %}
+
